@@ -44,7 +44,8 @@ export type TCustomControl = {
     inlineStyle?: React.CSSProperties
     blockWrapper?: React.ReactElement
     atomicComponent?: FunctionComponent
-    onClick?: (editorState: EditorState, name: string, anchor: HTMLElement | null) => EditorState | void
+    onClick?: (editorState: EditorState, name: string, anchor: HTMLElement | null) => EditorState | void,
+    tooltip?: string
 }
 
 type TStyleType = {
@@ -57,6 +58,7 @@ type TStyleType = {
     type: TControlType
     active?: boolean
     clickFnName?: string
+    tooltip?: string
 }
 
 type TToolbarProps = {
@@ -78,42 +80,48 @@ const STYLE_TYPES: TStyleType[] = [
         name: "title",
         style: 'header-two',
         icon: <TitleIcon />,
-        type: "block"
+        type: "block",
+        tooltip: "Header"
     },
     {
         label: 'Bold',
         name: "bold",
         style: 'BOLD',
         icon: <FormatBoldIcon />,
-        type: "inline"
+        type: "inline",
+        tooltip: "Bold"
     },
     {
         label: 'Italic',
         name: "italic",
         style: 'ITALIC',
         icon: <FormatItalicIcon />,
-        type: "inline"
+        type: "inline",
+        tooltip: "Italic"
     },
     {
         label: 'Underline',
         name: "underline",
         style: 'UNDERLINE',
         icon: <FormatUnderlinedIcon />,
-        type: "inline"
+        type: "inline",
+        tooltip: "Underline"
     },
     {
         label: 'Strikethrough',
         name: "strikethrough",
         style: 'STRIKETHROUGH',
         icon: <StrikethroughIcon />,
-        type: "inline"
+        type: "inline",
+        tooltip: "Strikethrough"
     },
     {
         label: 'Highlight',
         name: "highlight",
         style: 'HIGHLIGHT',
         icon: <HighlightIcon />,
-        type: "inline"
+        type: "inline",
+        tooltip: "Highlight"
     },
     {
         label: 'Undo',
@@ -121,6 +129,7 @@ const STYLE_TYPES: TStyleType[] = [
         style: "UNDO",
         icon: <UndoIcon />,
         type: "callback",
+        tooltip: "Undo"
     },
     {
         label: 'Redo',
@@ -128,6 +137,7 @@ const STYLE_TYPES: TStyleType[] = [
         style: "REDO",
         icon: <RedoIcon />,
         type: "callback",
+        tooltip: "Redo"
     },
     {
         label: 'Link',
@@ -135,7 +145,8 @@ const STYLE_TYPES: TStyleType[] = [
         style: 'LINK',
         icon: <InsertLinkIcon />,
         type: "callback",
-        id: "link-control"
+        id: "link-control",
+        tooltip: "Add link"
     },
     {
         label: 'Media',
@@ -143,49 +154,56 @@ const STYLE_TYPES: TStyleType[] = [
         style: 'IMAGE',
         icon: <PhotoLibraryIcon />,
         type: "callback",
-        id: "media-control"
+        id: "media-control",
+        tooltip: "Add media"
     },
     {
         label: 'UL',
         name: "bulletList",
         style: 'unordered-list-item',
         icon: <FormatListBulletedIcon />,
-        type: "block"
+        type: "block",
+        tooltip: "Bulleted list"
     },
     {
         label: 'OL',
         name: "numberList",
         style: 'ordered-list-item',
         icon: <FormatListNumberedIcon />,
-        type: "block"
+        type: "block",
+        tooltip: "Numbered list"
     },
     {
         label: 'Blockquote',
         name: "quote",
         style: 'blockquote',
         icon: <FormatQuoteIcon />,
-        type: "block"
+        type: "block",
+        tooltip: "Extended quotation"
     },
     {
         label: 'Code Block',
         name: "code",
         style: 'code-block',
         icon: <CodeIcon />,
-        type: "block"
+        type: "block",
+        tooltip: "Code block"
     },
     {
         label: 'Clear',
         name: "clear",
         style: 'clear',
         icon: <FormatClearIcon />,
-        type: "callback"
+        type: "callback",
+        tooltip: "Clear formatting"
     },
     {
         label: 'Save',
         name: "save",
         style: 'save',
         icon: <SaveIcon />,
-        type: "callback"
+        type: "callback",
+        tooltip: "Save"
     }
 ]
 
@@ -217,7 +235,8 @@ const Toolbar: FunctionComponent<TToolbarProps> = (props) => {
                         icon: customControl.icon,
                         component: customControl.component,
                         type: customControl.type,
-                        clickFnName: "onCustomClick"
+                        clickFnName: "onCustomClick",
+                        tooltip: customControl.tooltip
                     })
                 }
             }
@@ -268,6 +287,7 @@ const Toolbar: FunctionComponent<TToolbarProps> = (props) => {
                         inlineMode={props.inlineMode}
                         disabled={props.disabled}
                         size={props.size}
+                        tooltip={style.tooltip}
                     />
                 )
             })}
